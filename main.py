@@ -20,37 +20,7 @@ from image_resizer.cli import CLIParser
 from image_resizer.core import ProcessingMode
 from image_resizer.processors import SizeModeProcessor, DpiModeProcessor
 from image_resizer.utils.progress import get_progress_bar
-
-
-def determine_output_path(input_path: Path, output_dir: Optional[Path] = None, 
-                         suffix: Optional[str] = None) -> Path:
-    """
-    Determine output path for processed image
-    
-    Args:
-        input_path: Original image path
-        output_dir: Output directory (None for same as input)  
-        suffix: Suffix to add to filename
-        
-    Returns:
-        Path object for output file
-    """
-    if output_dir:
-        # Use specified output directory
-        filename = input_path.name
-        if suffix:
-            name_part = input_path.stem
-            ext_part = input_path.suffix
-            filename = f"{name_part}{suffix}{ext_part}"
-        return output_dir / filename
-    else:
-        # Use same directory as input
-        if suffix:
-            name_part = input_path.stem
-            ext_part = input_path.suffix
-            return input_path.parent / f"{name_part}{suffix}{ext_part}"
-        else:
-            return input_path
+from image_resizer.utils.file_utils import determine_output_path
 
 
 def process_images(input_paths: List[Path], config: dict) -> None:
@@ -90,16 +60,11 @@ def process_images(input_paths: List[Path], config: dict) -> None:
     total_output_size = 0
     
     for i, input_path in input_iter:
-        # Determine output path
+        # Determine output path with auto-increment (unless overwrite is enabled)
         output_path = determine_output_path(
-            input_path, config['output_dir'], config['suffix']
+            input_path, config['output_dir'], config['suffix'],
+            auto_increment=config['auto_increment']
         )
-        
-        # Skip if output exists and not overwriting
-        if output_path.exists() and not config['overwrite']:
-            if config['verbose']:
-                print(f"Skipping {input_path.name} - output exists")
-            continue
         
         # Process image
         result = processor.process(input_path, output_path, config['target_bytes'])

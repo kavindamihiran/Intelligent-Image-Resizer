@@ -21,12 +21,17 @@ class CLIParser:
             description='Intelligently resize images to achieve target file sizes',
             formatter_class=argparse.RawDescriptionHelpFormatter,
             epilog='''Examples:
-  Size mode (adjust quality):
+  Basic usage (creates files with '_resized' suffix, auto-increments if exists):
     %(prog)s size input.jpg 500KB
-    %(prog)s size *.jpg 1MB --suffix _resized
-  
-  DPI mode (adjust DPI):  
     %(prog)s dpi photo.jpg 2MB
+  
+  Custom suffix:
+    %(prog)s size *.jpg 1MB --suffix _web
+  
+  Replace original files:
+    %(prog)s size input.jpg 500KB --overwrite
+  
+  Output to directory with auto-increment:
     %(prog)s dpi images/ 800KB --output resized/
             '''
         )
@@ -34,8 +39,6 @@ class CLIParser:
         # Global arguments
         parser.add_argument('--no-progress', action='store_true',
                           help='Disable progress bar')
-        parser.add_argument('--verbose', '-v', action='store_true',
-                          help='Verbose output')
         
         # Create subparsers
         subparsers = parser.add_subparsers(dest='mode', help='Choose processing mode to reach target file size')
@@ -65,9 +68,13 @@ class CLIParser:
         parser.add_argument('--output', '-o',
                           help='Output directory (default: same as input)')
         parser.add_argument('--suffix',
-                          help='Suffix to add to output filenames')
+                          help='Suffix to add to output filenames (default: "_resized" if no --output or --overwrite)')
         parser.add_argument('--overwrite', action='store_true',
-                          help='Overwrite existing output files')
+                          help='Overwrite existing output files (default: create with "_resized" suffix)')
+        parser.add_argument('--no-auto-increment', action='store_true',
+                          help='Disable auto-increment for duplicate filenames (may cause overwrites)')
+        parser.add_argument('--verbose', '-v', action='store_true',
+                          help='Verbose output')
     
     def parse_args(self, args: Optional[List[str]] = None) -> Dict[str, Any]:
         """
@@ -101,13 +108,19 @@ class CLIParser:
         # Determine output directory
         output_dir = Path(parsed.output) if parsed.output else None
         
+        # Set default suffix if neither --overwrite nor --suffix specified
+        suffix = parsed.suffix
+        if not parsed.overwrite and not parsed.suffix and not output_dir:
+            suffix = "_resized"
+        
         return {
             'mode': mode,
             'target_bytes': target_bytes,
             'input_paths': input_paths,
             'output_dir': output_dir,
-            'suffix': parsed.suffix,
+            'suffix': suffix,
             'overwrite': parsed.overwrite,
+            'auto_increment': not parsed.no_auto_increment and not parsed.overwrite,
             'show_progress': not parsed.no_progress,
             'verbose': parsed.verbose
         }

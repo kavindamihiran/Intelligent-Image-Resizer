@@ -44,6 +44,20 @@ pip install tqdm
 
 ## Usage
 
+### Basic Usage (Default Behavior)
+
+**Resize single image to 500KB (creates photo_resized.jpg):**
+
+```bash
+python main.py size photo.jpg 500KB
+```
+
+**Resize to 2MB using DPI mode (creates photo_resized.jpg):**
+
+```bash
+python main.py dpi photo.jpg 2MB
+```
+
 ### Size Mode Examples
 
 **Resize single image to 500KB:**
@@ -52,16 +66,22 @@ pip install tqdm
 python main.py size photo.jpg 500KB
 ```
 
+**Replace original file (overwrite):**
+
+```bash
+python main.py size photo.jpg 500KB --overwrite
+```
+
 **Batch resize directory to 1MB each:**
 
 ```bash
 python main.py size photos/ 1MB --output output/
 ```
 
-**Resize with suffix (keeps originals):**
+**Resize with custom suffix:**
 
 ```bash
-python main.py size photo.jpg 200KB --suffix _resized
+python main.py size photo.jpg 200KB --suffix _web
 ```
 
 ### DPI Mode Examples
