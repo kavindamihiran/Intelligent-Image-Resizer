@@ -3,13 +3,12 @@
 Image Resizer - Intelligently resize images to achieve target file sizes
 
 This tool resizes images to match your desired file size automatically.
-It features two processing modes to handle different image types optimally:
-- Size mode: Uses quality adjustment (best for JPEG, WebP, TIFF)  
-- DPI mode: Uses DPI adjustment (works with all formats)
+It uses quality adjustment to reach target file size, which works best for 
+JPEG, WebP, and TIFF formats.
 
 Usage:
-    python main.py size input.jpg 500KB
-    python main.py dpi photos/ 1MB --output resized/
+    python main.py input.jpg 500KB
+    python main.py photos/ 1MB --output resized/
 """
 
 import sys
@@ -17,8 +16,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from image_resizer.cli import CLIParser
-from image_resizer.core import ProcessingMode
-from image_resizer.processors import SizeModeProcessor, DpiModeProcessor
+from image_resizer.processors import SizeModeProcessor
 from image_resizer.utils.progress import get_progress_bar
 from image_resizer.utils.file_utils import determine_output_path
 
@@ -31,13 +29,9 @@ def process_images(input_paths: List[Path], config: dict) -> None:
         input_paths: List of input image paths
         config: Configuration dictionary from CLI parser
     """
-    # Create processor based on mode
-    if config['mode'] == ProcessingMode.SIZE:
-        processor = SizeModeProcessor()
-        mode_name = "Size"
-    else:
-        processor = DpiModeProcessor()
-        mode_name = "DPI"
+    # Create processor
+    processor = SizeModeProcessor()
+    mode_name = "Size"
     
     # Create output directory if specified
     if config['output_dir']:

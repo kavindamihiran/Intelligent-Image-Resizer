@@ -3,12 +3,6 @@
 from enum import Enum
 
 
-class ProcessingMode(Enum):
-    """Enumeration of available processing modes"""
-    SIZE = "size"
-    DPI = "dpi"
-
-
 class ImageFormat(Enum):
     """Supported image formats with their properties"""
     JPEG = (".jpg", ".jpeg")
@@ -34,6 +28,5 @@ class ImageFormat(Enum):
         return extensions
 
 
-# Format support by processing mode
+# Supported formats for size mode processing
 SIZE_MODE_FORMATS = {ImageFormat.JPEG, ImageFormat.WEBP}
-DPI_MODE_FORMATS = {ImageFormat.JPEG, ImageFormat.PNG, ImageFormat.WEBP, ImageFormat.TIFF}

@@ -5,7 +5,6 @@ from typing import Any, Dict, List, Optional
 from pathlib import Path
 
 from ..utils.size_parser import SizeParser
-from ..core import ProcessingMode
 
 
 class CLIParser:
@@ -16,51 +15,27 @@ class CLIParser:
         self.size_parser = SizeParser()
     
     def _create_parser(self) -> argparse.ArgumentParser:
-        """Create the argument parser with subcommands"""
+        """Create the argument parser"""
         parser = argparse.ArgumentParser(
             description='Intelligently resize images to achieve target file sizes',
             formatter_class=argparse.RawDescriptionHelpFormatter,
             epilog='''Examples:
   Basic usage (creates files with '_resized' suffix, auto-increments if exists):
-    %(prog)s size input.jpg 500KB
-    %(prog)s dpi photo.jpg 2MB
+    %(prog)s input.jpg 500KB
+    %(prog)s *.jpg 1MB
   
   Custom suffix:
-    %(prog)s size *.jpg 1MB --suffix _web
+    %(prog)s *.jpg 1MB --suffix _web
   
   Replace original files:
-    %(prog)s size input.jpg 500KB --overwrite
+    %(prog)s input.jpg 500KB --overwrite
   
   Output to directory with auto-increment:
-    %(prog)s dpi images/ 800KB --output resized/
+    %(prog)s images/ 800KB --output resized/
             '''
         )
         
-        # Global arguments
-        parser.add_argument('--no-progress', action='store_true',
-                          help='Disable progress bar')
-        
-        # Create subparsers
-        subparsers = parser.add_subparsers(dest='mode', help='Choose processing mode to reach target file size')
-        
-        # Size mode subcommand
-        size_parser = subparsers.add_parser(
-            'size', help='Resize using quality adjustment (best for JPEG, WebP)',
-            description='Resize images by adjusting quality to reach target file size'
-        )
-        self._add_common_args(size_parser)
-        
-        # DPI mode subcommand  
-        dpi_parser = subparsers.add_parser(
-            'dpi', help='Resize using DPI adjustment (works with all formats)',
-            description='Resize images by adjusting DPI to reach target file size'
-        )
-        self._add_common_args(dpi_parser)
-        
-        return parser
-    
-    def _add_common_args(self, parser: argparse.ArgumentParser):
-        """Add common arguments to a subparser"""
+        # Main arguments
         parser.add_argument('input', 
                           help='Input image file, directory, or glob pattern')
         parser.add_argument('target_size',
@@ -73,8 +48,12 @@ class CLIParser:
                           help='Overwrite existing output files (default: create with "_resized" suffix)')
         parser.add_argument('--no-auto-increment', action='store_true',
                           help='Disable auto-increment for duplicate filenames (may cause overwrites)')
+        parser.add_argument('--no-progress', action='store_true',
+                          help='Disable progress bar')
         parser.add_argument('--verbose', '-v', action='store_true',
                           help='Verbose output')
+        
+        return parser
     
     def parse_args(self, args: Optional[List[str]] = None) -> Dict[str, Any]:
         """
@@ -87,12 +66,6 @@ class CLIParser:
             Dictionary with parsed configuration
         """
         parsed = self.parser.parse_args(args)
-        
-        if parsed.mode is None:
-            self.parser.error("Must specify processing mode (size or dpi)")
-        
-        # Parse processing mode
-        mode = ProcessingMode.SIZE if parsed.mode == 'size' else ProcessingMode.DPI
         
         # Parse target size
         try:
@@ -114,7 +87,6 @@ class CLIParser:
             suffix = "_resized"
         
         return {
-            'mode': mode,
             'target_bytes': target_bytes,
             'input_paths': input_paths,
             'output_dir': output_dir,

@@ -1,29 +1,17 @@
 # Image Resizer - Intelligent Image Resizing Tool
 
-A powerful Python tool for **resizing images to achieve target file sizes**. Simply specify your desired file size (e.g., 500KB, 1.5MB) and let the tool automatically resize your images to match that target.
-
-The tool offers **two processing modes** as sub-features to handle different image types optimally:
+A powerful Python tool for **resizing images to achieve target file sizes**. Simply specify your desired file size (e.g., 500KB, 1.5MB) and let the tool automatically resize your images to match that target using intelligent quality adjustment.
 
 ## Main Feature
 
-**🎯 Resize Images to Target File Size** - The core functionality that automatically adjusts your images to match your specified file size target.
+**🎯 Resize Images to Target File Size** - Automatically adjusts your images to match your specified file size target using quality optimization.
 
-## Processing Modes (Sub-features)
-
-### **Size Mode**
+## How It Works
 
 - Uses intelligent quality adjustment to reach target file size
 - Maintains original pixel dimensions and aspect ratio
 - Best for JPEG and WebP formats
 - Preserves or strips metadata as needed
-
-### **DPI Mode**
-
-- Uses DPI adjustment to reach target file size
-- Perfect for print preparation while controlling file size
-- Maintains same visual appearance and pixel count
-- Supports JPEG, PNG, WebP, and TIFF formats
-- Intelligent DPI optimization for target size
 
 ## Installation
 
@@ -44,82 +32,44 @@ pip install tqdm
 
 ## Usage
 
-### Basic Usage (Default Behavior)
+### Basic Usage
 
 **Resize single image to 500KB (creates photo_resized.jpg):**
 
 ```bash
-python main.py size photo.jpg 500KB
+python main.py photo.jpg 500KB
 ```
 
-**Resize to 2MB using DPI mode (creates photo_resized.jpg):**
-
-```bash
-python main.py dpi photo.jpg 2MB
-```
-
-### Size Mode Examples
+### Usage Examples
 
 **Resize single image to 500KB:**
 
 ```bash
-python main.py size photo.jpg 500KB
+python main.py photo.jpg 500KB
 ```
 
 **Replace original file (overwrite):**
 
 ```bash
-python main.py size photo.jpg 500KB --overwrite
+python main.py photo.jpg 500KB --overwrite
 ```
 
 **Batch resize directory to 1MB each:**
 
 ```bash
-python main.py size photos/ 1MB --output output/
+python main.py photos/ 1MB --output output/
 ```
 
 **Resize with custom suffix:**
 
 ```bash
-python main.py size photo.jpg 200KB --suffix _web
-```
-
-### DPI Mode Examples
-
-**Resize to 200KB by adjusting DPI:**
-
-```bash
-python main.py dpi scan.jpg 200KB
-```
-
-**Resize to 1MB with output directory:**
-
-```bash
-python main.py dpi scan.jpg 1MB --output resized/
-```
-
-**Batch resize with DPI adjustment:**
-
-```bash
-python main.py dpi photos/ 800KB --output output/
-```
-
-**Batch resize with suffix:**
-
-```bash
-python main.py dpi scanned_docs/ 500KB --suffix _optimized
+python main.py photo.jpg 200KB --suffix _web
 ```
 
 ## Supported Formats
 
-### Size Mode
-
 - **Input:** JPEG, PNG, TIFF, WebP (most formats)
 - **Output:** JPEG (.jpg, .jpeg), WebP (.webp)
-
-### DPI Mode
-
-- **Input/Output:** JPEG (.jpg, .jpeg), PNG (.png), WebP (.webp), TIFF (.tiff, .tif)
 
 ## Advanced Options
 
@@ -145,16 +95,16 @@ By default, the tool automatically prevents file overwrites by adding numeric su
 
 ```bash
 # Multiple runs create unique files automatically
-python main.py size photo.jpg 500KB
-python main.py size photo.jpg 400KB  # Creates photo_resized_1.jpg
-python main.py size photo.jpg 300KB  # Creates photo_resized_2.jpg
+python main.py photo.jpg 500KB
+python main.py photo.jpg 400KB  # Creates photo_resized_1.jpg
+python main.py photo.jpg 300KB  # Creates photo_resized_2.jpg
 
 # Works with custom suffixes too
-python main.py size photo.jpg 500KB --suffix _web
-python main.py size photo.jpg 400KB --suffix _web  # Creates photo_web_1.jpg
+python main.py photo.jpg 500KB --suffix _web
+python main.py photo.jpg 400KB --suffix _web  # Creates photo_web_1.jpg
 
 # Disable auto-increment to force overwrite
-python main.py size photo.jpg 500KB --no-auto-increment
+python main.py photo.jpg 500KB --no-auto-increment
 ```
 
 **Benefits:**
@@ -175,18 +125,10 @@ The size parser accepts various human-readable formats:
 
 ## How It Works
 
-### Size Mode Algorithm
-
 1. **Binary Search:** Uses binary search to find optimal quality setting
 2. **Smart Compression:** Adjusts JPEG/WebP quality to reach target size
 3. **Tolerance:** Accepts results within 5% of target size
 4. **Fallback:** If target unreachable, saves at lowest quality
-
-### DPI Mode Process
-
-1. **Metadata Update:** Changes DPI information in image headers
-2. **No Resampling:** Preserves exact pixel data
-3. **Format Optimization:** Uses best compression for each format
 
 ## Error Handling
 
@@ -211,28 +153,21 @@ The script provides comprehensive error handling:
 
 ```bash
 # Optimize images for web (under 200KB each)
-python main.py size website_images/ 200KB --output optimized/ --verbose
-```
-
-### Print Preparation
-
-```bash
-# Resize images for print while controlling file size
-python main.py dpi photos/ 2MB --output print_ready/ --suffix _print
+python main.py website_images/ 200KB --output optimized/ --verbose
 ```
 
 ### Email Attachments
 
 ```bash
 # Reduce file size for email
-python main.py size vacation_photos/ 500KB --output email_sized/
+python main.py vacation_photos/ 500KB --output email_sized/
 ```
 
 ### Batch Processing with Progress
 
 ```bash
 # Process many images with progress tracking
-python main.py size *.jpg 1MB --suffix _web --verbose
+python main.py *.jpg 1MB --suffix _web --verbose
 ```
 
 ## Troubleshooting
@@ -241,9 +176,9 @@ python main.py size *.jpg 1MB --suffix _web --verbose
 
 **Large Files:** For very large images, increase system memory or use smaller target sizes.
 
-**Quality Issues:** Size mode may reduce quality significantly for very small target sizes.
+**Quality Issues:** May reduce quality significantly for very small target sizes.
 
-**Format Support:** Check that your output format supports the features you need (e.g., DPI support).
+**Format Support:** Check that your output format supports the features you need.
 
 ## License
 
