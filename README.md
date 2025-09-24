@@ -1,4 +1,4 @@
-# Image Resizer - Intelligent Image Resizing Tool
+# Intelligent Image Resizer - Intelligent Image Resizing Tool
 
 A powerful Python tool for **resizing images to achieve target file sizes**. Simply specify your desired file size (e.g., 500KB, 1.5MB) and let the tool automatically resize your images to match that target using intelligent quality adjustment.
 
