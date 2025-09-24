@@ -49,45 +49,45 @@ pip install tqdm
 **Resize single image to 500KB:**
 
 ```bash
-python image_resizer_improved.py size -i photo.jpg -o resized.jpg -t 500KB
+python main.py size photo.jpg 500KB
 ```
 
 **Batch resize directory to 1MB each:**
 
 ```bash
-python image_resizer_improved.py size -i photos/ -d output/ -t 1MB --ext .webp
+python main.py size photos/ 1MB --output output/
 ```
 
-**Resize with metadata preservation:**
+**Resize with suffix (keeps originals):**
 
 ```bash
-python image_resizer_improved.py size -i photo.jpg -o output.jpg -t 200KB --keep-metadata
+python main.py size photo.jpg 200KB --suffix _resized
 ```
 
 ### DPI Mode Examples
 
-**Resize to 200KB by auto-adjusting DPI:**
+**Resize to 200KB by adjusting DPI:**
 
 ```bash
-python image_resizer_improved.py dpi -i scan.jpg -o output.jpg -t 200KB
+python main.py dpi scan.jpg 200KB
 ```
 
-**Resize to 1MB with fixed DPI:**
+**Resize to 1MB with output directory:**
 
 ```bash
-python image_resizer_improved.py dpi -i scan.jpg -o output.jpg -t 1MB --fixed-dpi 300
+python main.py dpi scan.jpg 1MB --output resized/
 ```
 
-**Batch resize with auto-DPI adjustment:**
+**Batch resize with DPI adjustment:**
 
 ```bash
-python image_resizer_improved.py dpi -i photos/ -d output/ -t 800KB
+python main.py dpi photos/ 800KB --output output/
 ```
 
-**Batch resize with fixed DPI:**
+**Batch resize with suffix:**
 
 ```bash
-python image_resizer_improved.py dpi -i scanned_docs/ -d output/ -t 500KB --fixed-dpi 150
+python main.py dpi scanned_docs/ 500KB --suffix _optimized
 ```
 
 ## Supported Formats
@@ -103,12 +103,13 @@ python image_resizer_improved.py dpi -i scanned_docs/ -d output/ -t 500KB --fixe
 
 ## Advanced Options
 
-| Option            | Description                              |
-| ----------------- | ---------------------------------------- |
-| `--keep-metadata` | Preserve EXIF and other metadata         |
-| `--ext .webp`     | Force output format for batch processing |
-| `--no-progress`   | Disable progress bars                    |
-| `-v, --verbose`   | Show detailed results                    |
+| Option            | Description                           |
+| ----------------- | ------------------------------------- |
+| `--output`, `-o`  | Output directory for processed images |
+| `--suffix`        | Add suffix to output filenames        |
+| `--overwrite`     | Overwrite existing output files       |
+| `--no-progress`   | Disable progress bars                 |
+| `--verbose`, `-v` | Show detailed results                 |
 
 ## Size Format Examples
 
@@ -157,21 +158,28 @@ The script provides comprehensive error handling:
 
 ```bash
 # Optimize images for web (under 200KB each)
-python image_resizer_improved.py size -i website_images/ -d optimized/ -t 200KB --ext .webp
+python main.py size website_images/ 200KB --output optimized/ --verbose
 ```
 
 ### Print Preparation
 
 ```bash
-# Set high DPI for printing
-python image_resizer_improved.py dpi -i photos/ -d print_ready/ --dpi 300 --keep-metadata
+# Resize images for print while controlling file size
+python main.py dpi photos/ 2MB --output print_ready/ --suffix _print
 ```
 
 ### Email Attachments
 
 ```bash
 # Reduce file size for email
-python image_resizer_improved.py size -i vacation_photos/ -d email_sized/ -t 500KB
+python main.py size vacation_photos/ 500KB --output email_sized/
+```
+
+### Batch Processing with Progress
+
+```bash
+# Process many images with progress tracking
+python main.py size *.jpg 1MB --suffix _web --verbose
 ```
 
 ## Troubleshooting
