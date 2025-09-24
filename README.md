@@ -182,4 +182,4 @@ python main.py *.jpg 1MB --suffix _web --verbose
 
 ## License
 
-This script is provided as-is for educational and practical use.
+MIT License
