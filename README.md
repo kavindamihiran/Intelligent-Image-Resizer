@@ -123,13 +123,46 @@ python main.py dpi scanned_docs/ 500KB --suffix _optimized
 
 ## Advanced Options
 
-| Option            | Description                           |
-| ----------------- | ------------------------------------- |
-| `--output`, `-o`  | Output directory for processed images |
-| `--suffix`        | Add suffix to output filenames        |
-| `--overwrite`     | Overwrite existing output files       |
-| `--no-progress`   | Disable progress bars                 |
-| `--verbose`, `-v` | Show detailed results                 |
+| Option                | Description                           |
+| --------------------- | ------------------------------------- |
+| `--output`, `-o`      | Output directory for processed images |
+| `--suffix`            | Add suffix to output filenames        |
+| `--overwrite`         | Overwrite existing output files       |
+| `--no-auto-increment` | Disable automatic filename increment  |
+| `--no-progress`       | Disable progress bars                 |
+| `--verbose`, `-v`     | Show detailed results                 |
+
+### Auto-Increment Feature
+
+By default, the tool automatically prevents file overwrites by adding numeric suffixes:
+
+- First run: `image.jpg` → `image_resized.jpg`
+- Second run: `image.jpg` → `image_resized_1.jpg`
+- Third run: `image.jpg` → `image_resized_2.jpg`
+- And so on...
+
+**Examples:**
+
+```bash
+# Multiple runs create unique files automatically
+python main.py size photo.jpg 500KB
+python main.py size photo.jpg 400KB  # Creates photo_resized_1.jpg
+python main.py size photo.jpg 300KB  # Creates photo_resized_2.jpg
+
+# Works with custom suffixes too
+python main.py size photo.jpg 500KB --suffix _web
+python main.py size photo.jpg 400KB --suffix _web  # Creates photo_web_1.jpg
+
+# Disable auto-increment to force overwrite
+python main.py size photo.jpg 500KB --no-auto-increment
+```
+
+**Benefits:**
+
+- ✅ Never accidentally overwrite existing files
+- ✅ Unlimited resize attempts on same image
+- ✅ Perfect for experimenting with different target sizes
+- ✅ Maintains history of all resize operations
 
 ## Size Format Examples
 
