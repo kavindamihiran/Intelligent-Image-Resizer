@@ -1,21 +1,25 @@
-# Image Resizer - Advanced Python Tool
+# Image Resizer - Intelligent Image Resizing Tool
 
-A powerful Python script for resizing images with two distinct modes:
+A powerful Python tool for **resizing images to achieve target file sizes**. Simply specify your desired file size (e.g., 500KB, 1.5MB) and let the tool automatically resize your images to match that target.
 
-## Features
+The tool offers **two processing modes** as sub-features to handle different image types optimally:
 
-### 🎯 **Size Mode**
+## Main Feature
 
-- Resize images to achieve a specific file size (e.g., 500KB, 1.5MB)
+**🎯 Resize Images to Target File Size** - The core functionality that automatically adjusts your images to match your specified file size target.
+
+## Processing Modes (Sub-features)
+
+### **Size Mode**
+
+- Uses intelligent quality adjustment to reach target file size
 - Maintains original pixel dimensions and aspect ratio
-- Uses intelligent quality adjustment to reach target size
-- Supports JPEG and WebP formats
+- Best for JPEG and WebP formats
 - Preserves or strips metadata as needed
 
-### 📐 **DPI Mode**
+### **DPI Mode**
 
-- **NEW:** Automatically adjust DPI to reach target file size
-- Option to use fixed DPI with quality adjustment
+- Uses DPI adjustment to reach target file size
 - Perfect for print preparation while controlling file size
 - Maintains same visual appearance and pixel count
 - Supports JPEG, PNG, WebP, and TIFF formats

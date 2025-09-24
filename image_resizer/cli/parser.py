@@ -18,7 +18,7 @@ class CLIParser:
     def _create_parser(self) -> argparse.ArgumentParser:
         """Create the argument parser with subcommands"""
         parser = argparse.ArgumentParser(
-            description='Resize images to target file size using quality or DPI adjustment',
+            description='Intelligently resize images to achieve target file sizes',
             formatter_class=argparse.RawDescriptionHelpFormatter,
             epilog='''Examples:
   Size mode (adjust quality):
@@ -38,19 +38,19 @@ class CLIParser:
                           help='Verbose output')
         
         # Create subparsers
-        subparsers = parser.add_subparsers(dest='mode', help='Processing mode')
+        subparsers = parser.add_subparsers(dest='mode', help='Choose processing mode to reach target file size')
         
         # Size mode subcommand
         size_parser = subparsers.add_parser(
-            'size', help='Adjust image quality to reach target size',
-            description='Resize images by adjusting quality (JPEG, WebP only)'
+            'size', help='Resize using quality adjustment (best for JPEG, WebP)',
+            description='Resize images by adjusting quality to reach target file size'
         )
         self._add_common_args(size_parser)
         
         # DPI mode subcommand  
         dpi_parser = subparsers.add_parser(
-            'dpi', help='Adjust image DPI to reach target size',
-            description='Resize images by adjusting DPI (all formats)'
+            'dpi', help='Resize using DPI adjustment (works with all formats)',
+            description='Resize images by adjusting DPI to reach target file size'
         )
         self._add_common_args(dpi_parser)
         

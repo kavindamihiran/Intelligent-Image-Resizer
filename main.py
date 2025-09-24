@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Image Resizer - Resize images to target file sizes using quality or DPI adjustment
+Image Resizer - Intelligently resize images to achieve target file sizes
 
-This tool provides two modes:
-- Size mode: Adjusts quality to reach target file size (JPEG, WebP, TIFF)  
-- DPI mode: Adjusts DPI to reach target file size (all formats)
+This tool resizes images to match your desired file size automatically.
+It features two processing modes to handle different image types optimally:
+- Size mode: Uses quality adjustment (best for JPEG, WebP, TIFF)  
+- DPI mode: Uses DPI adjustment (works with all formats)
 
 Usage:
     python main.py size input.jpg 500KB
