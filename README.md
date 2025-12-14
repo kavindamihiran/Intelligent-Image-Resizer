@@ -6,6 +6,29 @@ A powerful Python tool for **resizing images to achieve target file sizes**. Sim
 
 **🎯 Resize Images to Target File Size** - Automatically adjusts your images to match your specified file size target using quality optimization.
 
+## 🌐 Web Interface (NEW!)
+
+**Try it online - no installation required!**
+
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://intelligent-image-resizer.streamlit.app)
+
+Or run locally:
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run web interface
+streamlit run streamlit_app.py
+```
+
+The web interface provides:
+- 📤 Drag & drop image upload
+- 🎯 Easy target size selection (KB/MB)
+- 📊 Real-time metrics (compression ratio, quality level)
+- 📥 One-click download of resized images
+- 🎨 Modern dark theme with glassmorphism UI
+
 ## How It Works
 
 - Uses intelligent quality adjustment to reach target file size
@@ -23,16 +46,24 @@ A powerful Python tool for **resizing images to achieve target file sizes**. Sim
 ### Install Dependencies
 
 ```bash
-# Required
-pip install Pillow
+# Install all dependencies (recommended)
+pip install -r requirements.txt
 
-# Optional (for progress bars)
-pip install tqdm
+# Or install manually
+pip install Pillow streamlit tqdm
 ```
 
 ## Usage
 
-### Basic Usage
+### Web Interface (Recommended for most users)
+
+```bash
+streamlit run streamlit_app.py
+```
+
+Then open http://localhost:8501 in your browser.
+
+### Command Line (Terminal Mode)
 
 **Resize single image to 500KB (creates photo_resized.jpg):**
 
@@ -179,6 +210,19 @@ python main.py *.jpg 1MB --suffix _web --verbose
 **Quality Issues:** May reduce quality significantly for very small target sizes.
 
 **Format Support:** Check that your output format supports the features you need.
+
+## 🚀 Deploy Your Own
+
+### Streamlit Community Cloud (Free)
+
+1. Fork this repository to your GitHub
+2. Go to [share.streamlit.io](https://share.streamlit.io)
+3. Connect your GitHub account
+4. Select the forked repository
+5. Set `streamlit_app.py` as the main file
+6. Click "Deploy"
+
+Your app will be live at `https://your-app-name.streamlit.app`!
 
 ## License
 
